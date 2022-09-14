@@ -1,21 +1,12 @@
-#!/usr/bin/node
-// Script must be executed only when DOM is loaded
-$( dcoument ).ready(function() {
-    let data = {};
-    $(document).on('change', "input[type='checkbox']", function() {
-        if (this.checked) {
-            data[$(this).data('id')] = $(this).data('name');
-        } else {
-            delete data[$(this).data('name')];
+$(document).ready(function(){
+    let amenity_dict = {};
+      $('input[type="checkbox"]').click(function() {
+        if ($(this).is(':checked')) {
+          amenity_dict[$(this).data('id')] = $(this).data('name');
+          $('div.amenities h4').text(Object.values(amenity_dict).join(', '));
+        } else if ($(this).is(':not(:checked)')) {
+          delete amenity_dict[$(this).data('id')];
+          $('div.amenities h4').text(Object.values(amenity_dict).join(', '));
         }
-        let amenitiesName = [];
-        $.each(data, function(key, value) {
-            amenitiesName.push(key);
-        });
-        if (amenitiesName.length === 0) {
-            $('.amenities h4').html('&nbsp;');
-        } else {
-            $('.amenities h4').text(data.join(', '));
-        }
+      });
     });
-});
